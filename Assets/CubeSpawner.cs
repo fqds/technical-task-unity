@@ -15,11 +15,19 @@ public class CubeSpawner : MonoBehaviour
     }
     void CreateCube()
     {
-        if (SpawnrateInput.text == "") { SpawnrateInput.text = "0"; }
-        script = Cube.GetComponentInChildren<CubeMove>();
-        script.Speed =  System.Convert.ToSingle(SpeedInput.text);
-        script.Distance =  System.Convert.ToSingle(DistanceInput.text);
-        GameObject cube = Instantiate(Cube, CubeSpawnerObject.transform.position, Quaternion.identity, CubeSpawnerObject.transform);
-        Invoke("CreateCube", System.Convert.ToSingle(SpawnrateInput.text) / 1000);
+        try
+        {
+            script = Cube.GetComponentInChildren<CubeMove>();
+            script.Speed = System.Convert.ToSingle(SpeedInput.text);
+            script.Distance = System.Convert.ToSingle(DistanceInput.text);
+            Instantiate(Cube, CubeSpawnerObject.transform.position, Quaternion.identity, CubeSpawnerObject.transform);
+            Invoke("CreateCube", System.Convert.ToSingle(SpawnrateInput.text) / 1000);
+
+        }
+        catch
+        {
+            Debug.Log("bug");
+            Invoke("CreateCube", 0.1f);
+        }
     }
 }
